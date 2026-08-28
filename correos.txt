@@ -1,0 +1,14 @@
+From juan@empresa.com Mon Jan 12 08:15:20 2026
+Subject: Reunión
+
+From carla@universidad.mx Tue Jan 13 10:30:15 2026
+Subject: Proyecto
+
+From pedro@gmail.com Wed Jan 14 14:20:10 2026
+Subject: Información
+
+From sofia@correo.com Thu Jan 15 09:45:30 2026
+Subject: Tarea
+
+From diego@empresa.com Fri Jan 16 11:10:25 2026
+Subject: Reporte
