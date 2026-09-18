@@ -4,20 +4,20 @@ import random
 class ColaImpresion:
 
     def __init__(self, capacidad):
-        
+        # Guarda los trabajos pendientes y la capacidad máxima de la cola.
         self.cola = []
         self.capacidad = capacidad
 
     def esta_vacia(self):
-        
+        # Devuelve True si no existen trabajos pendientes.
         return len(self.cola) == 0
 
     def esta_llena(self):
-        
+        # Devuelve True si la cola alcanzó su capacidad máxima.
         return len(self.cola) >= self.capacidad
 
     def agregar_trabajo(self):
-        
+        # Agrega al final de la cola un trabajo enviado por una PC aleatoria.
         if self.esta_llena():
             print("\nLa cola de impresión está LLENA")
 
@@ -33,7 +33,7 @@ class ColaImpresion:
             self.mostrar_cola()
 
     def imprimir_documento(self):
-        
+        # Elimina el primer trabajo de la cola respetando el principio FIFO.
         if self.esta_vacia():
             print("\nLa cola de impresión está VACÍA")
 
@@ -46,7 +46,7 @@ class ColaImpresion:
             self.mostrar_cola()
 
     def mostrar_cola(self):
-        
+        # Muestra los trabajos pendientes en el orden en que serán atendidos.
         if self.esta_vacia():
             print("\nLa cola de impresión está VACÍA")
 
@@ -58,7 +58,7 @@ class ColaImpresion:
 
 
 def mostrar_menu():
-    
+    # Muestra las opciones disponibles para el usuario.
     print("\n----- COLA DE IMPRESIÓN -----")
     print("1. Agregar trabajo de impresión")
     print("2. Imprimir documento")
@@ -67,7 +67,7 @@ def mostrar_menu():
 
 
 def main():
-    
+    # Crea una cola con capacidad máxima de 6 trabajos.
     impresora = ColaImpresion(6)
 
     opcion = ""
