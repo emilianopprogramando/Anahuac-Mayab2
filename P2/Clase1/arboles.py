@@ -66,21 +66,11 @@ class ArbolBinario:
 
 arbol = ArbolBinario()
 
-arbol.insertar(14)
-arbol.insertar(15)
-arbol.insertar(4)
-arbol.insertar(9)
-arbol.insertar(7)
-arbol.insertar(18)
-arbol.insertar(3)
-arbol.insertar(5)
-arbol.insertar(16)
-arbol.insertar(4)
-arbol.insertar(20)
-arbol.insertar(17)
-arbol.insertar(9)
-arbol.insertar(14)
-arbol.insertar(5)
+entrada = input("Ingresa los valores separados por espacios: ")
+valores = entrada.split()
+
+for valor in valores:
+    arbol.insertar(int(valor))
 
 print("Árbol:")
 arbol.imprimir()
