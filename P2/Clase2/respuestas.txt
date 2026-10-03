@@ -230,5 +230,3 @@ Si tuvieras que explicar a un compañero la diferencia entre buscar y eliminar e
 Le diría que buscar solamente consiste en recorrer el árbol siguiendo la regla de menor a la izquierda y mayor a la derecha hasta encontrar un valor o llegar a null.
 
 Eliminar también comienza buscando el valor, pero después se debe modificar la estructura del árbol. Si el nodo no tiene hijos se elimina directamente, si tiene un hijo ese hijo ocupa su lugar y si tiene dos hijos se necesita buscar un valor sustituto.
-
-11. ENTREGAR EL ENLACE DEL REPOSITORIO CON:
