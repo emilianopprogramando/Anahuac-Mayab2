@@ -1,0 +1,234 @@
+
+1. Dibuja el ABB que se forma al insertar, en este orden: 50, 30, 20, 40, 70, 60 y 80.
+
+El árbol queda así:
+
+50 es la raíz.
+
+A la izquierda de 50 está 30 y a la derecha está 70.
+
+A la izquierda de 30 está 20 y a la derecha está 40.
+
+A la izquierda de 70 está 60 y a la derecha está 80.
+
+Los nodos hoja son 20, 40, 60 y 80.
+
+2. ¿Qué propiedad debe cumplir todo Árbol Binario de Búsqueda?
+
+Todo Árbol Binario de Búsqueda debe cumplir que los valores menores que un nodo estén en su subárbol izquierdo y los valores mayores estén en su subárbol derecho. Esta regla debe cumplirse en todos los nodos del árbol.
+
+3. ¿Cuál es la raíz del árbol construido?
+
+La raíz del árbol es 50, porque fue el primer valor que se insertó.
+
+4. ¿Qué nodos son hojas?
+
+Los nodos hoja son 20, 40, 60 y 80, porque no tienen hijos.
+
+5. ¿Qué valores pertenecen al subárbol izquierdo de 50 y cuáles al derecho?
+
+En el subárbol izquierdo de 50 están los valores 30, 20 y 40.
+
+En el subárbol derecho de 50 están los valores 70, 60 y 80.
+
+6. ¿Qué secuencia esperas obtener con el recorrido inorden?
+
+El recorrido inorden visita primero el subárbol izquierdo, después la raíz y finalmente el subárbol derecho.
+
+La secuencia es:
+
+20, 30, 40, 50, 60, 70, 80.
+
+7. MÉTODO DE BÚSQUEDA
+
+El método buscarRec debe analizar tres situaciones.
+
+Primero, si el nodo actual es null, significa que la clave no existe y se devuelve false.
+
+Segundo, si la clave es igual al valor del nodo actual, significa que se encontró y se devuelve true.
+
+Tercero, si la clave es menor que el nodo actual, se continúa buscando en el subárbol izquierdo. Si la clave es mayor, se continúa en el subárbol derecho.
+
+Método:
+
+public boolean buscarRec(Nodo raiz, int clave) {
+
+    if (raiz == null) {
+        return false;
+    }
+
+    if (clave == raiz.info) {
+        return true;
+    }
+
+    if (clave < raiz.info) {
+        return buscarRec(raiz.izq, clave);
+    }
+
+    return buscarRec(raiz.der, clave);
+}
+
+¿Por qué no es necesario recorrer todos los nodos del árbol para buscar una clave?
+
+Porque gracias a la propiedad del ABB sabemos hacia qué lado continuar. Si la clave es menor que el nodo actual, solamente buscamos a la izquierda. Si es mayor, buscamos a la derecha. Así descartamos una parte del árbol en cada comparación.
+
+Si se busca 40, ¿qué nodos se visitan y en qué orden?
+
+Primero se visita 50. Como 40 es menor que 50, se continúa hacia 30. Después, como 40 es mayor que 30, se continúa hacia la derecha hasta encontrar 40.
+
+El orden es:
+
+50, 30, 40.
+
+Si se busca 90, ¿qué condición permitirá concluir que no existe?
+
+Se visitarían 50, 70 y 80. Como 90 es mayor que 80, se intentaría continuar hacia su hijo derecho. Como ese hijo es null, se puede concluir que 90 no existe en el árbol.
+
+¿Qué valor booleano debe regresar el caso base cuando el nodo actual es null?
+
+Debe regresar false.
+
+¿Qué ocurriría si el árbol no respetara la regla menor-izquierda y mayor-derecha?
+
+La búsqueda podría fallar, porque el algoritmo decide hacia dónde continuar basándose en esa regla. Si los valores estuvieran colocados incorrectamente, el método podría buscar en un lado mientras que la clave realmente se encuentra en el otro.
+
+8. MÉTODO DE ELIMINACIÓN
+
+El método eliminarRec primero debe encontrar el nodo que se desea eliminar.
+
+Cuando lo encuentra, debe analizar tres casos.
+
+El primer caso es cuando el nodo es hoja, es decir, no tiene hijos.
+
+El segundo caso es cuando el nodo solamente tiene un hijo.
+
+El tercer caso es cuando el nodo tiene dos hijos.
+
+Método:
+
+public Nodo eliminarRec(Nodo raiz, int clave) {
+
+    if (raiz == null) {
+        return null;
+    }
+
+    if (clave < raiz.info) {
+        raiz.izq = eliminarRec(raiz.izq, clave);
+    } else if (clave > raiz.info) {
+        raiz.der = eliminarRec(raiz.der, clave);
+    } else {
+
+        if (raiz.izq == null) {
+            return raiz.der;
+        }
+
+        if (raiz.der == null) {
+            return raiz.izq;
+        }
+
+        int minimo = encontrarMinimo(raiz.der);
+
+        raiz.info = minimo;
+
+        raiz.der = eliminarRec(raiz.der, minimo);
+    }
+
+    return raiz;
+}
+
+¿Por qué la eliminación requiere más casos que la búsqueda?
+
+Porque la búsqueda solamente necesita encontrar una clave, mientras que la eliminación modifica la estructura del árbol. Dependiendo de si el nodo tiene cero, uno o dos hijos, se debe realizar un procedimiento diferente.
+
+¿Qué debe ocurrir si la clave que se desea eliminar no existe?
+
+El árbol debe permanecer igual. El método llegará a un nodo null y regresará sin realizar ningún cambio.
+
+¿Por qué eliminar un nodo hoja es el caso más sencillo?
+
+Porque un nodo hoja no tiene hijos. Por lo tanto, simplemente se puede quitar sin tener que reconectar otros nodos.
+
+Si un nodo tiene solamente un hijo, ¿por qué puede devolverse directamente la referencia a ese hijo?
+
+Porque el hijo puede ocupar directamente el lugar del nodo eliminado. De esta forma se mantiene conectado el resto del subárbol.
+
+¿Por qué el menor valor del subárbol derecho es un candidato adecuado para sustituir a un nodo con dos hijos?
+
+Porque ese valor es el siguiente valor mayor al nodo que se está eliminando. De esta manera se conserva la propiedad del ABB.
+
+Por ejemplo, si se elimina 50, el menor valor de su subárbol derecho es 60, por lo que 60 puede ocupar el lugar de 50.
+
+Después de copiar el valor sustituto, ¿por qué todavía es necesario eliminar ese valor de su ubicación original?
+
+Porque de lo contrario existirían dos nodos con el mismo valor. Si copiamos 60 en el lugar de 50, todavía existiría el 60 original en el subárbol derecho. Por eso es necesario eliminarlo de su posición original.
+
+¿Qué riesgo existiría si se eliminara un nodo con dos hijos sin reconectar correctamente sus subárboles?
+
+Se podrían perder nodos o incluso subárboles completos. También se podría romper la propiedad de que los valores menores estén a la izquierda y los mayores a la derecha.
+
+¿Por qué eliminar la raíz puede modificar la variable raiz del árbol?
+
+Porque la raíz puede ser sustituida por otro nodo. Por ejemplo, si la raíz solamente tiene un hijo, ese hijo se convierte en la nueva raíz. Por eso se debe actualizar la referencia principal del árbol.
+
+¿Qué propiedad debe seguir cumpliendo el árbol después de cualquier eliminación?
+
+Debe seguir cumpliendo que todos los valores menores estén en el subárbol izquierdo y todos los valores mayores estén en el subárbol derecho.
+
+Después de cualquier eliminación, el recorrido inorden debe seguir mostrando las claves restantes en orden ascendente.
+
+9. MÉTODO AUXILIAR: ENCONTRAR EL VALOR MÍNIMO
+
+Para encontrar el valor mínimo de un subárbol no es necesario recorrer todos sus nodos.
+
+Como los valores menores siempre se encuentran hacia la izquierda, solamente debemos movernos en esa dirección hasta encontrar un nodo que ya no tenga hijo izquierdo.
+
+Método:
+
+public int encontrarMinimo(Nodo raiz) {
+
+    Nodo actual = raiz;
+
+    while (actual.izq != null) {
+        actual = actual.izq;
+    }
+
+    return actual.info;
+}
+
+¿Hacia qué dirección debes desplazarte para encontrar el mínimo?
+
+Siempre hacia la izquierda.
+
+¿Qué condición indica que ya encontraste el nodo mínimo?
+
+Cuando el nodo actual ya no tiene hijo izquierdo, es decir, cuando actual.izq es null.
+
+¿Cuál es el mínimo del subárbol cuya raíz es 70 en el árbol inicial?
+
+El mínimo es 60.
+
+10. REFLEXIONES FINALES
+
+¿Cómo ayuda el recorrido inorden a comprobar que el ABB conserva su estructura?
+
+El recorrido inorden me ayuda a verificar que los valores siguen apareciendo de menor a mayor. Si después de insertar o eliminar nodos los valores continúan en orden ascendente, significa que el árbol sigue respetando la propiedad del ABB.
+
+Explica con tus palabras el caso de eliminación que consideraste más difícil.
+
+El caso que considero más difícil es eliminar un nodo con dos hijos, porque no se puede quitar directamente. Primero se necesita encontrar un valor que pueda sustituirlo, normalmente el menor valor del subárbol derecho. Después se copia ese valor en el nodo y finalmente se elimina de su ubicación original para evitar duplicados.
+
+¿Qué papel cumple la recursividad en los métodos de búsqueda y eliminación?
+
+La recursividad permite aplicar el mismo procedimiento varias veces sobre subárboles cada vez más pequeños. En la búsqueda permite continuar hacia la izquierda o la derecha. En la eliminación también permite regresar y actualizar correctamente las referencias de los nodos.
+
+¿Qué aprendiste sobre el cambio de referencias entre nodos al eliminar elementos?
+
+Aprendí que eliminar un nodo no solamente significa borrar su valor. También es necesario modificar las referencias que conectan a los nodos para evitar perder partes del árbol. Las referencias izquierda, derecha y raíz deben mantenerse correctamente actualizadas.
+
+Si tuvieras que explicar a un compañero la diferencia entre buscar y eliminar en un ABB, ¿qué le dirías?
+
+Le diría que buscar solamente consiste en recorrer el árbol siguiendo la regla de menor a la izquierda y mayor a la derecha hasta encontrar un valor o llegar a null.
+
+Eliminar también comienza buscando el valor, pero después se debe modificar la estructura del árbol. Si el nodo no tiene hijos se elimina directamente, si tiene un hijo ese hijo ocupa su lugar y si tiene dos hijos se necesita buscar un valor sustituto.
+
+11. ENTREGAR EL ENLACE DEL REPOSITORIO CON:
